@@ -1,8 +1,12 @@
 import { Router } from 'express'
-import { getAllEvents } from './../controllers/eventsController'
+import { getAllEvents, getEventById, createEvent } from './../controllers/eventsController'
 
 const router = Router()
 
-router.get('/', getAllEvents)
+router.route('/').get(getAllEvents).post(createEvent)
+router.route('/:id').get(getEventById)
 
+// .get('/:dayOfTheWeek, getEventByDayOfWeek)
 export default router
+
+//
