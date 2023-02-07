@@ -3,10 +3,10 @@
 ## About
 This First Project is basically an API creation for a planner application. The repository focus on backend development using the knowledges learned on internship program by Compass.
 
-### Status -> In development 😃
-#### 0% [===>XXXXXX] 100%
+## Status -> In development 😃
+### 0% [===>XXXXXX] 100%
 
-### Tecnologies used/to be used(possibly 😐)
+## Tecnologies used/to be used (possibly 😐)
 - [X] Javascript
 - [X] Node.js + Express
 - [X] Typescript
@@ -16,8 +16,7 @@ This First Project is basically an API creation for a planner application. The r
 - [ ] Swagger
 - [ ] MongoDB
 
-### To Be Done: 
-#### Mandatory Requirements
+## To Be Done/Requirements
 - [X] Readability
 - [X] Private repository
 - [X] Small commits
@@ -33,7 +32,7 @@ This First Project is basically an API creation for a planner application. The r
 - [ ] **Implement Patch/Update Routes (Optional)**
 
 
-### How to Reply
+## How to Reply
 Coming soon 😱
 Step by Step to reproduce this repo
 Install node (the specific version)
