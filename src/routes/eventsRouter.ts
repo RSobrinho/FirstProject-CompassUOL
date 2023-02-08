@@ -1,12 +1,12 @@
 import { Router } from 'express'
-import { getEvents, getEventById, createEvent} from './../controllers/eventsController'
+import { createEvent, getEvents, updateEvent, deleteEvents, getEventById, updateEventById, deleteEventById} from './../controllers/eventsController'
 
 const router = Router()
 
 // utilizar router.param
 
-router.route('/').get(getEvents).post(createEvent)
-router.route('/:id').get(getEventById)
+router.route('/').get(getEvents).post(createEvent).patch(updateEvent).delete(deleteEvents)
+router.route('/:id').get(getEventById).patch(updateEventById).delete(deleteEventById)
 
 
 export default router
