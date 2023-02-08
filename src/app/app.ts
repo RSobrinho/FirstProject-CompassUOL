@@ -1,8 +1,8 @@
 import express from 'express'
 const app = express()
 
-import usersRoutes from './../routes/users'
-import eventsRoutes from './../routes/users'
+import usersRoutes from './../routes/usersRouter'
+import eventsRoutes from './../routes/eventsRouter'
 
 app.use(express.json())
 
