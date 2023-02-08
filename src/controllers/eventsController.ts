@@ -1,13 +1,14 @@
 import { RequestHandler } from 'express'
 import Event from '../models/eventsModel'
 
-export const getAllEvents: RequestHandler = async (req, res) => {
+export const getEvents: RequestHandler = async (req, res) => {
   try {
-    const allEvents = await Event.find()
+    const dayChosen = parseInt(req.query.dayOfTheWeek as string) // dps validar se é string
+    const events = isNaN(dayChosen) ? await Event.find() : (await Event.find()).filter(obj => (obj.dateTime).getDay() === dayChosen)
 
     res.status(200).json({
       status: 'success',
-      allEvents
+      events
     })
   } catch (err) {
     res.status(400).json({

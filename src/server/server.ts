@@ -6,9 +6,9 @@ const DB = (process.env.DB_CONNECTION)
 
 if(typeof DB === 'string') {
   mongoose.set('strictQuery', false)
-  mongoose.connect(DB).then((con) => console.log('DB connection established'))
+  mongoose.connect(DB).then(() => console.log('DB connection established'))
 } else {
-  console.log('ele ta undefined');
+  console.log('DB connection not established');
 }
 
 import app from './../app/app'
