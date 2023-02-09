@@ -3,11 +3,11 @@ import mongoose from 'mongoose'
 const eventSchema = new mongoose.Schema({
   description: {
     type: String,
-    required: [true, 'Must have a description']
+    required: [true, 'Description field is required']
   },
   dateTime: {
     type: Date,
-    required: true
+    required: [true, 'DateTime field is required'],
   },
   createdAt: {
     type: Date,

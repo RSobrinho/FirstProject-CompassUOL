@@ -2,8 +2,14 @@ import { RequestHandler } from 'express'
 import Event from './../models/eventsModel'
 
 export const createEvent: RequestHandler = async (req, res) => {
-  // aqui preciso verificar o tipo que me foi enviado de cada prop do json, e se nao bater retornar um not allowed (405 ou 500 sla), mas por enquanto vou deixar sem validacao de type pro createEvent
   try {
+    const date = new Date(req.body.dateTime)
+    const isValid = !isNaN(Date.parse(date as any))
+    const length = req.body.description.length
+
+    if(length < 10) throw `Description too short, minimum 10 characters, got ${length}`
+    if(!isValid) throw 'Invalid dateTime'
+
     const newEvent = await Event.create({
       description: req.body.description,
       dateTime: req.body.dateTime,
@@ -27,6 +33,8 @@ export const getEvents: RequestHandler = async (req, res) => {
     const dayChosen = parseInt(req.query.dayOfTheWeek as string) // dps validar se é string
     const events = isNaN(dayChosen) ? await Event.find() : (await Event.find()).filter(obj => (obj.dateTime).getDay() === dayChosen)
 
+    if(events.length === 0) throw 'No events found to get'
+
     res.status(200).json({
       status: 'success',
       events
@@ -46,6 +54,9 @@ export const deleteEvents: RequestHandler = async (req, res) => {
 
     if(isNaN(dayChosen)) {
       const events = await Event.find()
+
+      if(events.length === 0) throw 'No events found to delete'
+
       qtdEventsDeleted = events.length
 
       await Event.deleteMany({})
@@ -54,13 +65,12 @@ export const deleteEvents: RequestHandler = async (req, res) => {
       const events = (await Event.find()).filter(obj => (obj.dateTime).getDay() === dayChosen)
       qtdEventsDeleted = events.length
 
+      if(events.length === 0) throw 'No events found (weekday search) to delete'
+
       events.forEach(async (event) => {
         await Event.deleteOne({ dateTime: event.dateTime})
       })
     }
-
-    console.log(qtdEventsDeleted);
-    // validar se existe algum evento para poder deletar
 
     res.status(200).json({
       status: 'success',
@@ -80,6 +90,8 @@ export const getEventById: RequestHandler = async (req, res) => {
     // check if event is nullerxists, and if it is, modify status
     const event = await Event.findById(req.params.id)
 
+    if(!event) throw 'Event not found'
+
     res.status(200).json({
       status:'success',
       event
@@ -95,7 +107,9 @@ export const getEventById: RequestHandler = async (req, res) => {
 export const deleteEventById: RequestHandler = async (req, res) => {
   try {
     // check if event is nullerxists, and if it is, modify status
-    await Event.findByIdAndDelete(req.params.id)
+    const deleted = await Event.findByIdAndDelete(req.params.id)
+
+    if(!deleted) throw 'Event not found (to delete)'
 
     res.status(200).json({
       status:'success',
@@ -111,12 +125,20 @@ export const deleteEventById: RequestHandler = async (req, res) => {
 
 export const updateEventById: RequestHandler = async (req, res) => {
   try {
-    // check if event is nullerxists, and if it is, modify status
-    const eventUpdated = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    const date = new Date(req.body.dateTime)
+    const isValid = !isNaN(Date.parse(date as any))
+    const length = req.body.description.length
+
+    if(length < 10) throw `Description too short, minimum 10 characters, got ${length}`
+    if(!isValid) throw 'Invalid dateTime'
+
+    const event = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true })
+
+    if(!event) throw 'Event not found (to update)'
 
     res.status(200).json({
       status:'success',
-      eventUpdated
+      event
     })
   } catch (err) {
     res.status(400).json({
@@ -125,4 +147,3 @@ export const updateEventById: RequestHandler = async (req, res) => {
     })
   }
 }
-//
