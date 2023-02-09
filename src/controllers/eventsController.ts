@@ -1,5 +1,5 @@
 import { RequestHandler } from 'express'
-import Event from '../models/eventsModel'
+import Event from './../models/eventsModel'
 
 export const createEvent: RequestHandler = async (req, res) => {
   // aqui preciso verificar o tipo que me foi enviado de cada prop do json, e se nao bater retornar um not allowed (405 ou 500 sla), mas por enquanto vou deixar sem validacao de type pro createEvent
@@ -37,25 +37,6 @@ export const getEvents: RequestHandler = async (req, res) => {
       message: err
     })
   }
-}
-
-
-
-export const updateEvent: RequestHandler = async (req, res) => {
-  // try {
-  //   const dayChosen = parseInt(req.query.dayOfTheWeek as string) // dps validar se é string
-  //   const events = isNaN(dayChosen) ? await Event.find() : (await Event.find()).filter(obj => (obj.dateTime).getDay() === dayChosen)
-
-  //   res.status(200).json({
-  //     status: 'success',
-  //     events
-  //   })
-  // } catch (err) {
-  //   res.status(400).json({
-  //     status: 'failed',
-  //     message: err
-  //   })
-  // }
 }
 
 export const deleteEvents: RequestHandler = async (req, res) => {
@@ -144,3 +125,4 @@ export const updateEventById: RequestHandler = async (req, res) => {
     })
   }
 }
+//
