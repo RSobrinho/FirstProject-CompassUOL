@@ -1,6 +1,6 @@
 import { RequestHandler } from 'express'
 import User from './../models/usersModel'
-
+import validator from 'email-validator'
 // ideias para implementar
 // criar um usuario administrador, que pode fazer getAllUsers, getUsersById, getUsersByName, deleteUserById, deleteUserByName, e ai vai indo, porem somente o admin tem possibilidade de fazer isso
 
@@ -15,8 +15,27 @@ export const signUpUser: RequestHandler = async (req, res) => {
   // validar as quinhentas e 50 informacoes do usuario, que nao vou fazer agora, vou criar um middleware validador, pq ai da pra usar no signInUser tbm
   // criptografar o password do mano e colar no bd (middleware tbm)
 
+  const { firstName, lastName, birthDate, city, country, email, password, confirmPassword } = req.body
+
   try {
-    const newUser = await User.create(req.body)
+    if(firstName.length < 4) throw 'First name too short'
+    if(lastName.length < 4) throw 'Last name too short'
+    if(city.length < 4) throw 'City too short'
+    if(country.length < 4) throw 'Country too short'
+    if(!validator.validate(email)) throw 'E-Mail is invalid'
+
+    if(password !== confirmPassword) {
+      throw 'Password and confirmPassword does not match'
+    } else {
+      if(password.length < 9) throw 'Password too short'
+    }
+
+    const date = new Date(birthDate)
+    if(isNaN(Date.parse(date as any))) throw 'BirthDate must be a Date'
+
+    // "falta" criptografar o password
+
+    await User.create(req.body)
 
     res.status(200).json({
       status: 'success',
@@ -44,9 +63,8 @@ export const signInUser: RequestHandler = async (req, res) => {
     // isso daqui, so dps de criptografar para o hash correspondente ao password
     const user = await User.findOne({ email: req.body.email, password: req.body.password });
 
-    if(!user) {
-      throw new Error('User not found')
-    }
+    if(!user) throw 'User not found'
+
 
     res.status(200).json({
       status: 'success',

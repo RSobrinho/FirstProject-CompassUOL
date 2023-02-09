@@ -1,3 +1,6 @@
+// consideracoes
+// qnd fui fazer a parte de validacao, tanto do events quanto do users, eu tentei fazer por mongodb, mas vi que n daria pra estudar e fazer no tempo do desafio, por isso fiz as validacoes basicas, menos de require (se existe aql dado no json, espero que o front faria isso, e se n fizer, o mongodb catou tbm), no braço mesmo.
+
 import { RequestHandler } from 'express'
 import Event from './../models/eventsModel'
 
