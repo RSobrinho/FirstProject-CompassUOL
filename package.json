@@ -5,9 +5,9 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
-    "build": "tsc",
-    "js": "node dist/src/server.js "
+    "start": "node dist/src/server.js",
+    "dev": "tsnd --transpile-only --respawn --ignore-watch node_modules src/server.ts",
+    "build": "tsc"
   },
   "repository": {
     "type": "git",
