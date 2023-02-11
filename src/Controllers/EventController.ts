@@ -3,30 +3,8 @@ import Event from '../Schemas/EventSchema'
 import { validate, IsString, IsDateString, IsNotEmpty } from 'class-validator'
 
 class EventController {
-  @IsNotEmpty()
-  @IsString()
-  private description: string
-
-  @IsNotEmpty()
-  @IsDateString()
-  private dateTime: Date
-
-  constructor (description?: string, dateTime?: Date) {
-    this.description = description
-    this.dateTime = dateTime
-  }
-
   public async createEvent (req: Request, res: Response): Promise<Response | void> {
-    const { description, dateTime } = req.body
-    const instanceEvent = new EventController(description, dateTime)
-
-    validate(instanceEvent).then((error) => {
-      if (error.length > 0) {
-        res.status(400).json({ status: 'Validation Failed', message: error[0].constraints })
-      }
-    })
-
-    const newEvent = await Event.create(instanceEvent)
+    const newEvent = await Event.create(req.body)
     return res.status(200).json(
       { status: 'Success', message: 'Event created successfully', newEvent }
     )
@@ -41,7 +19,7 @@ class EventController {
     }
 
     return res.status(200).json(
-      { status: 'Success', message: 'Event found successfully', events }
+      { status: 'Success', message: 'Events found successfully', events }
     )
   }
 
@@ -66,7 +44,7 @@ class EventController {
 
     res.status(200).json({
       status: 'Success',
-      message: `${qtdEventsDeleted} successfully deleted`
+      message: `${qtdEventsDeleted} events successfully deleted`
     })
   }
 
@@ -94,22 +72,12 @@ class EventController {
   }
 
   public async updateEventById (req: Request, res: Response): Promise<Response | void> {
-    const { description, dateTime } = req.body
-
-    const instance = new EventController(description, dateTime)
-
-    validate(instance).then((error) => {
-      if (error.length > 0) {
-        res.status(400).json({ status: 'Validation Failed', message: error[0].constraints })
-      }
-    })
-
-    const event = await Event.findByIdAndUpdate(req.params.id, instance, { new: true })
+    const event = await Event.findByIdAndUpdate(req.params.id, req.body, { new: true })
 
     if (!event) {
       res.status(404).json({ status: 'Failed', message: 'Event not found to update' })
     }
-    res.status(200).json({ status: 'Success', message: `Event with id ${req.params.id} was updated successfully}`, event })
+    res.status(200).json({ status: 'Success', message: `Event with id ${req.params.id} was updated successfully`, event })
   }
 }
 

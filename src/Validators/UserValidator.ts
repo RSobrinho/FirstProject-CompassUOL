@@ -37,21 +37,15 @@ class UserValidator {
   @IsString()
   private country: string
 
-  constructor (firstName?, lastName?, birthDate?, city?, country?, email?, password?, confirmPassword?) {
-    this.firstName = firstName
-    this.lastName = lastName
-    this.birthDate = birthDate
-    this.city = city
-    this.country = country
-    this.email = email
-    this.password = password
-    this.confirmPassword = confirmPassword
+  constructor (props?: object) {
+    Object.assign(this, props)
   }
 
   public async valSignUp (req: Request, res: Response, next: NextFunction): Promise<Response> {
     try {
-      const error = await validate(new UserValidator(req.body))
-      const { firstName, lastName, birthDate, city, country, email, password, confirmPassword } = new UserValidator(req.body)
+      const { firstName, lastName, birthDate, city, country, email, password, confirmPassword } = req.body
+
+      const error = await validate(new UserValidator({ firstName, lastName, birthDate, city, country, email, password, confirmPassword }))
 
       if (error.length > 0) {
         return res.status(400).json(
@@ -71,6 +65,7 @@ class UserValidator {
       }
 
       const { email, password } = new UserValidator(req.body)
+
       const error = await validate({ email, password })
 
       if (error.length > 0) {
@@ -83,4 +78,5 @@ class UserValidator {
     }
   }
 }
+
 export default UserValidator
