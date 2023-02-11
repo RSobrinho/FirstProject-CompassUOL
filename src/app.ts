@@ -2,6 +2,7 @@ import express from 'express'
 import mongoose from 'mongoose'
 import UserRouter from './Routes/UserRouter'
 import EventRouter from './Routes/EventRouter'
+import BaseRouter from './Routes/BaseRouter'
 import { config } from 'dotenv'
 
 class App {
@@ -25,6 +26,7 @@ class App {
   }
 
   private routes () {
+    this.express.use('/', BaseRouter)
     this.express.use('/api/v1/users', UserRouter)
     this.express.use('/api/v1/events', EventRouter)
   }
