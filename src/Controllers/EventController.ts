@@ -1,6 +1,5 @@
 import { Request, Response } from 'express'
 import Event from '../Schemas/EventSchema'
-import { validate, IsString, IsDateString, IsNotEmpty } from 'class-validator'
 
 class EventController {
   public async createEvent (req: Request, res: Response): Promise<Response | void> {

@@ -79,4 +79,4 @@ class UserValidator {
   }
 }
 
-export default UserValidator
+export default new UserValidator()
