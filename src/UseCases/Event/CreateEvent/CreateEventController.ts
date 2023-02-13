@@ -13,7 +13,7 @@ export class CreateEventController {
 
     try {
       await this.createEventUseCase.execute({ description, dateTime })
-      return res.status(200).json({ status: 'Success' })
+      return res.status(200).json({ status: 'User created successfully' })
     } catch (err) {
       return res.status(400).json({ message: err.message || 'Unexpected error' })
     }

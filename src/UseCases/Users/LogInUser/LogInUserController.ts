@@ -13,7 +13,7 @@ export class LogInUserController {
 
     try {
       await this.logInUserUseCase.execute({ email, password })
-      return res.status(200).json({ message: 'Success' })
+      return res.status(200).json({ message: 'User successfully logged in' })
     } catch (err) {
       return res.status(400).json({ message: err.message || 'Unexpected error' })
     }

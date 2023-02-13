@@ -12,7 +12,7 @@ export class CreateUserController {
 
     try {
       await this.createUserUseCase.execute({ firstName, lastName, birthDate, city, country, email, password, confirmPassword })
-      return res.status(200).json({ status: 'Success' })
+      return res.status(200).json({ status: 'User created successfully' })
     } catch (err) {
       return res.status(400).json({ message: err.message || 'Unexpected error' })
     }

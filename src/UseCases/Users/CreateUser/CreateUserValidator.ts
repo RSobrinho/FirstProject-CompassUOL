@@ -9,7 +9,7 @@ export class CreateUserValidator {
     const error = await validate((new User({ email, password, confirmPassword, birthDate, firstName, lastName, city, country })))
 
     if (error.length > 0) {
-      return res.status(200).json({ status: 'LogIn Validation Failed', message: error[0].constraints })
+      return res.status(200).json({ status: 'CreateUser Validation Failed', message: error[0].constraints })
     }
 
     next()

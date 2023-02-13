@@ -1,0 +1,353 @@
+
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Primeiro projeto Compass.UOL",
+    "description": "Uma API de um 'suposto' planner, onde há rotas de usuário e de eventos, e estes usuários futuramente poderão implementar seus próprios eventos ao fazer login na API. Atualmente é possível fazer diversas manipulações nos eventos, e também criar e logar usuário (de forma persistente num banco de dados em um  servidor do MongoDB Atlas).",
+    "termsOfService": "https://www.google.com.br/search?q=N%C3%A3o+h%C3%A1+%3A%7C",
+    "contact": {
+      "name": "Rafael Sobrinho",
+      "url": "https://www.google.com/search?q=Ainda+n%C3%A3o+tenho+site+pessoal+mas+jaja+crio+um+prometo+%E0%BC%BC+%E3%81%A4+%E2%97%95_%E2%97%95+%E0%BC%BD%E3%81%A4",
+      "email": "rafael.sobrinho.pb@compasso.com.br"
+      },
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:8082/api/v1/",
+        "description": "URL para testar API localmente "
+      },
+      {
+        "url": "http://firstprojectcompassuol-env.eba-epngbm5y.sa-east-1.elasticbeanstalk.com/api/v1/",
+        "description": "URL da API hospedada no AWS Elastic Beanstalk"
+      }
+    ],
+    "paths": {
+      "/events": {
+        "post": {
+          "summary": "Criação de evento",
+          "description": "Rota responsável por criar os eventos do planner de cada usuário",
+          "tags": ["Events"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Event"
+                  },
+                  "examples": {
+                    "event": {
+                      "value": {
+                        "description": "Me reunir com o time da compass para efetivar minha contratação :D",
+                        "dateTime": "2023-05-15T17:31:14.000Z"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "401": {
+                "description": "CreateEvent Validation Failed"
+              },
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "Event created successfully"
+              }
+            }
+          },
+        "get": {
+          "summary": "Busca de todos os eventos, e se passado um query parameter, busca todos os eventos que caem em tal dia da semana",
+          "description": "Rota responsável por buscar todos os eventos, e caso passado um query parameter do tipo number, busca todos os eventos que batem com um tal dia da semana (onde domingo é representado pelo número 0 até sábado que é representado pelo número 6)",
+          "tags": ["Events"],
+          "parameters": [
+            {
+              "name":"dayOfTheWeek",
+              "in": "query",
+              "description": "Número do dia da semana para busca",
+              "required": false
+            }
+          ],
+            "responses": {
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json":{
+                    "schema": {
+                      "type": "array",
+                      "items": {
+                        "$ref": "#/components/schemas/Event"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+        "delete": {
+          "summary": "Deleção de todos os eventos, e se passado um query parameter, deleta todos os eventos que caem em tal dia da semana",
+          "description": "Rota responsável por deletar todos os eventos, e caso passado um query parameter do tipo number, deleta todos os eventos que batem com um tal dia da semana (onde domingo é representado pelo número 0 até sábado que é representado pelo número 6)",
+          "tags": ["Events"],
+          "parameters": [
+            {
+              "name":"dayOfTheWeek",
+              "in": "query",
+              "description": "Número do dia da semana para deletar",
+              "required": false
+            }
+          ],
+            "responses": {
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "qtdEventsDeleted was deleted successfully"
+              }
+            }
+          }
+        },
+      "/events/{id}": {
+        "get": {
+          "summary": "Busca do evento por Id",
+          "description": "Rota responsável por buscar o evento pelo Id",
+          "tags": ["Events"],
+          "parameters": [
+            {
+              "name":"id",
+              "in": "path",
+              "description": "Evento pelo Id",
+              "required": true
+            }
+          ],
+            "responses": {
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json":{
+                    "schema": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/CompleteEvent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+        "patch": {
+          "summary": "Atualiza evento pelo Id",
+          "description": "Rota responsável por atualizar o evento pelo Id",
+          "tags": ["Events"],
+          "parameters": [
+            {
+              "name":"id",
+              "in": "path",
+              "description": "Evento pelo Id",
+              "required": true
+            }
+          ],
+            "responses": {
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "Success",
+                "content": {
+                  "application/json":{
+                    "schema": {
+                      "type": "object",
+                      "$ref": "#/components/schemas/CompleteEvent"
+                    }
+                  }
+                }
+              }
+            }
+          },
+        "delete": {
+          "summary": "Deleta o evento pelo Id",
+          "description": "Rota responsável por deletar o evento pelo Id",
+          "tags": ["Events"],
+          "parameters": [
+            {
+              "name":"id",
+              "in": "path",
+              "description": "Evento pelo Id",
+              "required": true
+            }
+          ],
+            "responses": {
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "Event successfully deleted"
+              }
+            }
+          }
+      },
+      "/users/signUp": {
+        "post": {
+          "summary": "Criação de usuário",
+          "description": "Rota responsável por criar os usuários",
+          "tags": ["Users"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/signUpUser"
+                  },
+                  "examples": {
+                    "event": {
+                      "value": {
+                        "firstName": "Rafael",
+                        "lastName": "Sobrinho",
+                        "birthDate": "2004-04-21",
+                        "city": "Campo grande",
+                        "country": "Brazil",
+                        "email": "rafa@gmail.com",
+                        "password": "PDN1234fdsa!@#$fsdff5",
+                        "confirmPassword": "PDN1234fdsa!@#$fsdff5"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "401": {
+                "description": "CreateUser Validation Failed"
+              },
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "User created successfully"
+              }
+            }
+          }
+      },
+      "/users/signIn": {
+        "post": {
+          "summary": "LogIn de usuário",
+          "description": "Rota responsável por realizar login do Usuário",
+          "tags": ["Users"],
+          "requestBody": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/signUpUser"
+                  },
+                  "examples": {
+                    "event": {
+                      "value": {
+                        "email": "rafa@gmail.com",
+                        "password": "PDN1234fdsa!@#$fsdff5"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "responses": {
+              "401": {
+                "description": "LogInUser Validation Failed"
+              },
+              "400": {
+                "description": "Unexpected Error (Catch block on controller)"
+              },
+              "200": {
+                "description": "User successfully logged in"
+              }
+            }
+          }
+      }
+      },
+    "components": {
+      "schemas": {
+        "Event": {
+          "type": "object",
+          "properties": {
+            "description": {
+              "type": "string"
+            },
+            "dateTime": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "CompleteEvent": {
+          "type": "object",
+          "properties": {
+            "_id": {
+              "type": "string",
+              "format": "ObjectId"
+            },
+            "description": {
+              "type": "string"
+            },
+            "dateTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "createdAt": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "updatedAt": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "signUpUser": {
+          "type": "object",
+          "properties": {
+            "firstName": {
+              "type": "string"
+            },
+            "lastName": {
+              "type": "string"
+            },
+            "birthDate": {
+              "type": "string",
+              "format": "date"
+            },
+            "city": {
+              "type": "string"
+            },
+            "country": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            },
+            "confirmPassword": {
+              "type": "string"
+            }
+          }
+        },
+        "signInUser": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string"
+            },
+            "password": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+
+  }
