@@ -4,7 +4,7 @@
 This First Project is basically an API creation for a planner application. The repository focus on backend development using the knowledges learned on internship program by Compass.
 
 ## Status -> In development 😃
-### 0% [======>XXX] 100%
+### 0% [=======>XX] 100%
 
 ## Tecnologies used/to be used (possibly 😐)
 - [X] Javascript
@@ -13,7 +13,7 @@ This First Project is basically an API creation for a planner application. The r
 - [ ] Docker
 - [X] Eslint
 - [ ] Testing (chai/moch, jest/superjest)
-- [ ] Swagger
+- [X] Swagger
 - [X] MongoDB
 
 ## To Be Done/Requirements
@@ -59,6 +59,9 @@ This First Project is basically an API creation for a planner application. The r
 ### `/` route
 - Just a route to dont cause a **severe** things on AWS Elastic Beanstalk (in my case because i put on a server)
 
+### `/api-docs` route
+- A route to have access to the API-REST documentation created with swagger-ui
+
 ### `/api/v1/users` route
 - On /SignIn, its necessary to put just the email and the password in json, more or less than this, a error will be thrown
 - On /SignUp, all the fields need to be put, otherwise a error will be thrown
@@ -68,5 +71,10 @@ This First Project is basically an API creation for a planner application. The r
 - On `/id`, you can do CRUD operations with the event id, like updateById, deleteById, getById
 - Both `/` and `/id` are with validation, meaning that if you dont pass a property or put on wrong format, an error will be thrown
 
+
+### In The next deliveries of this project, I pretend to implement testing with Jest, and use an alternative to MongoDB Atlas (using local MongoDB containerized by Docker)
+
 ### Well, thats is 😅, link of the application on a AWS server here: 
 - http://firstprojectcompassuol-env.eba-epngbm5y.sa-east-1.elasticbeanstalk.com/ 
+
+
