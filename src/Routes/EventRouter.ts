@@ -21,6 +21,13 @@ router.route('/')
     return deleteEventsByWeekDayController.handle(request, response)
   })
 
+router.use('/', (request, response, next) => {
+  createEventValidator.validator(request, response, next)
+})
+router.route('/').post((request, response) => {
+  return createEventController.handle(request, response)
+})
+
 router.route('/:id')
   .get((request, response) => {
     return getEventByIdController.handle(request, response)
@@ -32,10 +39,4 @@ router.route('/:id')
     return deleteEventByIdController.handle(request, response)
   })
 
-router.use((request, response, next) => {
-  createEventValidator.validator(request, response, next)
-})
-router.route('/').post((request, response) => {
-  return createEventController.handle(request, response)
-})
 export default router

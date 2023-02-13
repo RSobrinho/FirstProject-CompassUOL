@@ -1,4 +1,6 @@
 import express from 'express'
+import swaggerUi from 'swagger-ui-express'
+import swaggerDocs from '../swagger.json'
 import mongoose from 'mongoose'
 import UserRouter from './Routes/UserRouter'
 import EventRouter from './Routes/EventRouter'
@@ -18,6 +20,7 @@ class App {
 
   private middlewares () {
     this.express.use(express.json())
+    this.express.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
   }
 
   private database () {
