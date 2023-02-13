@@ -1,4 +1,4 @@
-import { IUserRepository } from '../IUserRepository'
+import { IUserRepository } from '../Interfaces/IUserRepository'
 import { User } from '../../Entities/User'
 import UserSchema from '../Schemas/UserSchema'
 

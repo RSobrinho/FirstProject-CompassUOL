@@ -13,7 +13,6 @@ export class DeleteEventsByWeekDayController {
 
     try {
       const eventsDeleted = await this.deleteEventsByWeekDayUseCase.execute({ dayOfTheWeek })
-
       return res.status(200).json({ status: 'Success', message: `${eventsDeleted} was deleted successfully` })
     } catch (err) {
       return res.status(400).json({ message: err.message || 'Unexpected error' })

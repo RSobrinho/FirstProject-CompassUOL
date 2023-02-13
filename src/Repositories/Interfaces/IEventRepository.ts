@@ -1,4 +1,4 @@
-import { Event } from '../Entities/Event'
+import { Event } from '../../Entities/Event'
 
 export interface IEventRepository {
   save(event: Event): Promise<void>,

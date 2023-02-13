@@ -1,5 +1,5 @@
 import { Event } from 'Entities/Event'
-import { IEventRepository } from '../IEventRepository'
+import { IEventRepository } from '../Interfaces/IEventRepository'
 import EventSchema from '../Schemas/EventSchema'
 
 export class MongoDBEventRepository implements IEventRepository {

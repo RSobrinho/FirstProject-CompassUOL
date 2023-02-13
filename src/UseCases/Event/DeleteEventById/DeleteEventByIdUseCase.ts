@@ -1,5 +1,4 @@
-import { Event } from '../../../Entities/Event'
-import { IEventRepository } from 'Repositories/IEventRepository'
+import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 import { IDeleteEventByIdDTO } from './IDeleteEventByIdDTO'
 
 export class DeleteEventByIdUseCase {
@@ -11,7 +10,6 @@ export class DeleteEventByIdUseCase {
 
   async execute (data: IDeleteEventByIdDTO) {
     const event = await this.eventsRepository.deleteById(data.id)
-
     if (!event) {
       throw new Error('Event not found to delete')
     }

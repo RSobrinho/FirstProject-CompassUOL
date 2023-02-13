@@ -1,4 +1,4 @@
-import { IUserRepository } from '../../../Repositories/IUserRepository'
+import { IUserRepository } from '../../../Repositories/Interfaces/IUserRepository'
 import { ILogInUserDTO } from './ILogInUserDTO'
 
 export class LogInUserUseCase {

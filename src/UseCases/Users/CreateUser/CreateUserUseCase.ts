@@ -1,7 +1,6 @@
-import { IUserRepository } from '../../../Repositories/IUserRepository'
+import { IUserRepository } from '../../../Repositories/Interfaces/IUserRepository'
 import { ICreateUserDTO } from './ICreateUserDTO'
 import { User } from '../../../Entities/User'
-import { userValidator } from '.'
 
 export class CreateUserUseCase {
   private usersRepository: IUserRepository
@@ -18,9 +17,6 @@ export class CreateUserUseCase {
     }
 
     const user = new User(data)
-
-    await userValidator.createUserValidator(user)
-
     await this.usersRepository.save(user)
   }
 }

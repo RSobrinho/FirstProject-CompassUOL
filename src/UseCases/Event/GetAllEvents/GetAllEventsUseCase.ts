@@ -1,4 +1,4 @@
-import { IEventRepository } from 'Repositories/IEventRepository'
+import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 
 export class GetAllEventsUseCase {
   private eventsRepository: IEventRepository

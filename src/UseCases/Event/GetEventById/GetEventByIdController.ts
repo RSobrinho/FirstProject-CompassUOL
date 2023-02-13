@@ -13,7 +13,6 @@ export class GetEventByIdController {
 
     try {
       const event = await this.getEventByIdUseCase.execute({ id })
-
       return res.status(200).json({ status: 'Success', event })
     } catch (err) {
       return res.status(400).json({ message: err.message || 'Unexpected error' })

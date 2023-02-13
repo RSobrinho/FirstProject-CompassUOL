@@ -1,4 +1,4 @@
-import { IEventRepository } from 'Repositories/IEventRepository'
+import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 import { IDeleteEventsByWeekDayDTO } from './IDeleteEventsByWeekDayDTO'
 
 export class DeleteEventsByWeekDayUseCase {
@@ -11,6 +11,7 @@ export class DeleteEventsByWeekDayUseCase {
   async execute (data: IDeleteEventsByWeekDayDTO) {
     const { dayOfTheWeek } = data
     const dayChosen = parseInt(dayOfTheWeek)
+
     if (isNaN(dayChosen) || dayChosen < 0 || dayChosen > 6) {
       throw new Error('Please, put just numbers of 0 to 6 (representing the week days)')
     }

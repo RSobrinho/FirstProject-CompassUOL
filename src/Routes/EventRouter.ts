@@ -9,6 +9,10 @@ import { updateEventByIdController } from '../UseCases/Event/UpdateEventById'
 
 const router = Router()
 
+const postEventMiddleware = (request, response, next) => {
+  createEventValidator.validator(request, response, next)
+}
+
 router.route('/')
   .get((request, response) => {
     if (request.query.dayOfTheWeek) {
@@ -20,13 +24,9 @@ router.route('/')
   .delete((request, response) => {
     return deleteEventsByWeekDayController.handle(request, response)
   })
-
-router.use('/', (request, response, next) => {
-  createEventValidator.validator(request, response, next)
-})
-router.route('/').post((request, response) => {
-  return createEventController.handle(request, response)
-})
+  .post(postEventMiddleware, (request, response) => {
+    return createEventController.handle(request, response)
+  })
 
 router.route('/:id')
   .get((request, response) => {

@@ -8,10 +8,10 @@ export class LogInUserValidator {
     const { email, password } = req.body
     const error = await validate((new User({ email, password })))
 
-    // Devido a refatoração de MVC pra package by use cases, nao consegui finalizar a mensagem customizada de error, pra cada tipo de error. Não aprendi como passar um objeto, que daí meus problemas sumiriam kkj
     if (error.length > 0) {
       return res.status(400).json({ status: 'LogIn Validation Failed', message: error[0].constraints })
     }
+
     next()
   }
 }

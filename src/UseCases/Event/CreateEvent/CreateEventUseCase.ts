@@ -1,5 +1,5 @@
 import { Event } from '../../../Entities/Event'
-import { IEventRepository } from 'Repositories/IEventRepository'
+import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 import { ICreateEventDTO } from './ICreateEventDTO'
 
 export class CreateEventUseCase {

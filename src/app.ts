@@ -20,7 +20,7 @@ class App {
 
   private middlewares () {
     this.express.use(express.json())
-    this.express.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+    // this.express.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
   }
 
   private database () {

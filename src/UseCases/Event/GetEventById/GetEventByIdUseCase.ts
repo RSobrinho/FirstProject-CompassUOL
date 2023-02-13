@@ -1,4 +1,4 @@
-import { IEventRepository } from 'Repositories/IEventRepository'
+import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 import { IGetEventByIdDTO } from './IGetEventByIdDTO'
 
 export class GetEventByIdUseCase {

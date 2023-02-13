@@ -10,9 +10,9 @@ export class GetEventsByWeekDayController {
 
   async handle (req: Request, res: Response): Promise<Response> {
     const dayOfTheWeek = req.query.dayOfTheWeek as string
+
     try {
       const events = await this.getEventsByWeekDayUseCase.execute({ dayOfTheWeek })
-
       return res.status(200).json({ status: 'Success', events })
     } catch (err) {
       return res.status(400).json({ message: err.message || 'Unexpected error' })
