@@ -3,6 +3,12 @@ import { ICreateUserDTO } from './ICreateUserDTO'
 import { User } from '../../../Entities/User'
 import { validate } from 'class-validator'
 import { ValidationError } from '../../../Utils/ErrorHandler/ValidationError'
+import { sign } from 'jsonwebtoken'
+import { encrypt } from '../../../Utils/Encrypt'
+
+import { config } from 'dotenv'
+config()
+
 export class CreateUserUseCase {
   private usersRepository: IUserRepository
 
@@ -11,20 +17,27 @@ export class CreateUserUseCase {
   }
 
   async execute (data: ICreateUserDTO) {
-    const { email, password, confirmPassword, birthDate, firstName, lastName, city, country } = new User(data)
+    const { _id, email, password, birthDate, firstName, lastName, city, country } = new User(data)
 
-    const error = await validate({ email, password, confirmPassword, birthDate, firstName, lastName, city, country })
+    const error = await validate({ email, password, birthDate, firstName, lastName, city, country })
 
     if (error.length > 0) {
       const errors = error[0].constraints
       throw new ValidationError(errors)
     }
 
-    if (await this.usersRepository.findUser(data.email)) {
+    if (password !== data.confirmPassword) {
+      throw new ValidationError({ confirmPasswordError: 'Password and confirmPassword are not the same' })
+    }
+
+    if (await this.usersRepository.findUser(email)) {
       throw new ValidationError({ userExistenceError: 'User already exists.' })
     }
 
-    const user = new User(data)
-    await this.usersRepository.save(user)
+    await this.usersRepository.save({ _id, email, password, birthDate, firstName, lastName, city, country })
+
+    return sign({ _id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN
+    })
   }
 }

@@ -3,7 +3,7 @@ import { ILogInUserDTO } from './ILogInUserDTO'
 import { User } from '../../../Entities/User'
 import { validate } from 'class-validator'
 import { ValidationError } from '../../../Utils/ErrorHandler/ValidationError'
-
+import { encrypt } from '../../../Utils/Encrypt'
 export class LogInUserUseCase {
   private usersRepository: IUserRepository
 
@@ -19,12 +19,12 @@ export class LogInUserUseCase {
       throw new ValidationError(error[0].constraints)
     }
 
-    const userExists = await this.usersRepository.logInUser(data.email, data.password)
+    const encryptedPass = await encrypt({ password })
+
+    const userExists = await this.usersRepository.logInUser(email, encryptedPass)
 
     if (!userExists) {
       throw new ValidationError({ userExistenceError: 'User with this E-Mail and Password not found' })
     }
-
-    return userExists
   }
 }

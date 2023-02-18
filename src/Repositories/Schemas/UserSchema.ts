@@ -1,6 +1,8 @@
+import { hash, compare } from 'bcrypt'
 import { Schema, model, Document } from 'mongoose'
 
 interface IUserSchema extends Document {
+  _id: Schema.Types.Mixed,
   firstName: string,
   lastName: string,
   birthDate: Date,
@@ -8,18 +10,17 @@ interface IUserSchema extends Document {
   country: string,
   email: string,
   password: string,
-  confirmPassword: string
 }
 
 const UserSchema = new Schema({
+  _id: Schema.Types.Mixed,
   firstName: String,
   lastName: String,
   birthDate: Date,
   city: String,
   country: String,
   email: String,
-  password: String,
-  confirmPassword: String
+  password: String
 })
 
 // class UserSchemaClass extends Schema {

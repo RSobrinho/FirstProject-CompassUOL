@@ -1,4 +1,5 @@
 export interface ICreateUserDTO {
+  _id: string,
   firstName: string,
   lastName: string,
   birthDate: Date,
