@@ -6,6 +6,7 @@ import UserRouter from './Routes/UserRouter'
 import EventRouter from './Routes/EventRouter'
 import BaseRouter from './Routes/BaseRouter'
 import { config } from 'dotenv'
+import { errorResponse, errorLogging } from './Utils/ErrorHandler/BaseHandler'
 
 class App {
   public express: express.Application
@@ -16,11 +17,24 @@ class App {
     this.middlewares()
     this.database()
     this.routes()
+    this.errorMiddlewares()
   }
 
   private middlewares () {
     this.express.use(express.json())
     this.express.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+
+    // this.express.all('*', (req, res) => {
+    //   res.status(404).json({
+    //     status: "Failed",
+    //     message: `Cant find ${req.originalUrl} on this server`
+    //   })
+    // })
+  }
+
+  private errorMiddlewares () {
+    this.express.use(errorResponse)
+    this.express.use(errorLogging)
   }
 
   private database () {

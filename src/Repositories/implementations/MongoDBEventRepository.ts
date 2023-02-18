@@ -23,6 +23,18 @@ export class MongoDBEventRepository implements IEventRepository {
     return false
   }
 
+  // async findByWeekDay (dayChosen: number): Promise<Event[]> {
+  //   const events = await EventSchema.find().where('dateTime').
+
+  // if (req.query.fields) {
+  //   const fields = req.query.fields.split(',').join(' ')
+  //   query = query.select(fields)
+  // } else {
+  //   query = query.select('-__v')
+  // }
+
+  // }
+
   async updateById (id: string): Promise<Event> {
     return await EventSchema.findByIdAndUpdate(id)
   }

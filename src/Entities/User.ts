@@ -4,37 +4,37 @@ export class User {
   @IsNotEmpty()
   @IsString()
   @IsEmail()
-  private email: string
+  public email: string
 
   @IsNotEmpty()
   @IsString()
   @IsStrongPassword()
-  private password: string
+  public password: string
 
   @IsNotEmpty()
   @IsString()
   @IsStrongPassword()
-  private confirmPassword: string
+  public confirmPassword: string
 
   @IsNotEmpty()
   @IsDateString()
-  private birthDate: Date
+  public birthDate: Date
 
   @IsNotEmpty()
   @IsString()
-  private firstName: string
+  public firstName: string
 
   @IsNotEmpty()
   @IsString()
-  private lastName: string
+  public lastName: string
 
   @IsNotEmpty()
   @IsString()
-  private city: string
+  public city: string
 
   @IsNotEmpty()
   @IsString()
-  private country: string
+  public country: string
 
   constructor (props?: object) {
     Object.assign(this, props)

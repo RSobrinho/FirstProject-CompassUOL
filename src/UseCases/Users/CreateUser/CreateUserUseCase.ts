@@ -1,7 +1,8 @@
 import { IUserRepository } from '../../../Repositories/Interfaces/IUserRepository'
 import { ICreateUserDTO } from './ICreateUserDTO'
 import { User } from '../../../Entities/User'
-
+import { validate } from 'class-validator'
+import { ValidationError } from '../../../Utils/ErrorHandler/ValidationError'
 export class CreateUserUseCase {
   private usersRepository: IUserRepository
 
@@ -10,10 +11,17 @@ export class CreateUserUseCase {
   }
 
   async execute (data: ICreateUserDTO) {
-    const userAlreadyExists = await this.usersRepository.findUser(data.email)
+    const { email, password, confirmPassword, birthDate, firstName, lastName, city, country } = new User(data)
 
-    if (userAlreadyExists) {
-      throw new Error('User already exists.')
+    const error = await validate({ email, password, confirmPassword, birthDate, firstName, lastName, city, country })
+
+    if (error.length > 0) {
+      const errors = error[0].constraints
+      throw new ValidationError(errors)
+    }
+
+    if (await this.usersRepository.findUser(data.email)) {
+      throw new ValidationError({ userExistenceError: 'User already exists.' })
     }
 
     const user = new User(data)

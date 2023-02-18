@@ -4,7 +4,7 @@ export class Event {
   @IsDefined()
   @IsNotEmpty()
   @IsString()
-  private description: string
+  public description: string
 
   @IsNotEmpty()
   @IsDateString()

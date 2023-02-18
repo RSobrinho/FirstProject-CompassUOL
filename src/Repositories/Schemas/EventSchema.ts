@@ -10,6 +10,7 @@ const EventSchema = new Schema({
   dateTime: Date
 }, {
   timestamps: true
+  // select: false
 })
 
 export default model<IEventSchema>('Event', EventSchema)
