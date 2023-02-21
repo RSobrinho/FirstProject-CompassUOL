@@ -34,6 +34,12 @@ export class User {
   @IsString()
   public country: string
 
+  public passwordChangedAt: Date
+
+  public passwordResetToken: string
+
+  public passwordResetExpires: Date
+
   constructor (props?: Omit<User, '_id'> | object, _id?: string) {
     Object.assign(this, props)
 

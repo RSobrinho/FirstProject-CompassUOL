@@ -2,7 +2,7 @@ import { Event } from '../../../Entities/Event'
 import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 import { ICreateEventDTO } from './ICreateEventDTO'
 import { validate } from 'class-validator'
-import { ValidationError } from '../../../Utils/ErrorHandler/ValidationError'
+import { ValidationError } from '../../../Error/ValidationError'
 
 export class CreateEventUseCase {
   private eventsRepository: IEventRepository

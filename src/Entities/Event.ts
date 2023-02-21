@@ -1,6 +1,9 @@
 import { IsString, IsNotEmpty, IsDateString, IsDefined } from 'class-validator'
+import { v4 } from 'uuid'
 
 export class Event {
+  public readonly _id: string
+
   @IsDefined()
   @IsNotEmpty()
   @IsString()
@@ -10,7 +13,11 @@ export class Event {
   @IsDateString()
   public dateTime: Date
 
-  constructor (props?: object) {
+  constructor (props?: Omit<Event, '_id'> | object, _id?: string) {
     Object.assign(this, props)
+
+    if (!_id) {
+      this._id = v4()
+    }
   }
 }

@@ -1,4 +1,4 @@
-import { BaseError } from './BaseHandler'
+import { BaseError } from './BaseError'
 
 export class NotFoundError extends BaseError {
   propertyString: string

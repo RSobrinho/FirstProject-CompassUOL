@@ -1,3 +1,4 @@
+import { NotFoundError } from '../../../Error/NotFoundError'
 import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 import { IGetEventByIdDTO } from './IGetEventByIdDTO'
 
@@ -12,7 +13,7 @@ export class GetEventByIdUseCase {
     const event = await this.eventsRepository.findById(data.id)
 
     if (!event) {
-      throw new Error('Event not found to delete')
+      throw new NotFoundError('Event')
     }
 
     return event

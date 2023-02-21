@@ -1,0 +1,11 @@
+import { BaseError } from './BaseError'
+
+export class jwtError extends BaseError {
+  propertyString: string
+
+  constructor (propertyString: string) {
+    super(402, `${propertyString}.`)
+
+    this.propertyString = propertyString
+  }
+}

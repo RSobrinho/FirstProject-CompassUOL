@@ -1,9 +1,9 @@
-import { BaseError } from './BaseHandler'
+import { BaseError } from './BaseError'
 
 export class ValidationError extends BaseError {
   validationErrorsObject: object
   constructor (validationErrorsObject: object) {
-    super(404, 'ValidationError', validationErrorsObject)
+    super(400, 'ValidationError', validationErrorsObject)
 
     this.opObject = validationErrorsObject
   }

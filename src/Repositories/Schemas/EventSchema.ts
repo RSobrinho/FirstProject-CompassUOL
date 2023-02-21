@@ -6,6 +6,7 @@ interface IEventSchema extends Document {
 }
 
 const EventSchema = new Schema({
+  _id: Schema.Types.Mixed,
   description: String,
   dateTime: Date
 }, {

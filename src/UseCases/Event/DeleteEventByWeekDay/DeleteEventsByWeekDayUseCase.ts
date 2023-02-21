@@ -1,3 +1,5 @@
+import { NotFoundError } from '../../../Error/NotFoundError'
+import { ValidationError } from '../../../Error/ValidationError'
 import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 import { IDeleteEventsByWeekDayDTO } from './IDeleteEventsByWeekDayDTO'
 
@@ -13,13 +15,13 @@ export class DeleteEventsByWeekDayUseCase {
     const dayChosen = parseInt(dayOfTheWeek)
 
     if (isNaN(dayChosen) || dayChosen < 0 || dayChosen > 6) {
-      throw new Error('Please, put just numbers of 0 to 6 (representing the week days)')
+      throw new ValidationError({ dayChosenError: 'Please, put just numbers of 0 to 6 (representing the week days)' })
     }
 
     const events = (await this.eventsRepository.findAll()).filter(obj => obj.dateTime.getDay() === dayChosen)
 
     if (events.length === 0) {
-      throw new Error('No events found to delete.')
+      throw new NotFoundError('Event')
     }
 
     await this.eventsRepository.deleteAll(events)

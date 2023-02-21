@@ -1,5 +1,5 @@
 import { Router } from 'express'
-import { asyncHandler } from './../Utils/ErrorHandler/BaseHandler'
+import { asyncHandler } from '../Error/Handler'
 
 const router = Router()
 

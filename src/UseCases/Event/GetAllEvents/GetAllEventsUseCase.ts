@@ -1,3 +1,4 @@
+import { NotFoundError } from '../../../Error/NotFoundError'
 import { IEventRepository } from 'Repositories/Interfaces/IEventRepository'
 
 export class GetAllEventsUseCase {
@@ -11,7 +12,7 @@ export class GetAllEventsUseCase {
     const events = await this.eventsRepository.findAll()
 
     if (events.length === 0) {
-      throw new Error('Events not found.')
+      throw new NotFoundError('Events')
     }
 
     return events

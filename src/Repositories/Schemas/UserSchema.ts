@@ -1,5 +1,6 @@
 import { hash, compare } from 'bcrypt'
 import { Schema, model, Document } from 'mongoose'
+import { randomBytes, createHash } from 'crypto'
 
 interface IUserSchema extends Document {
   _id: Schema.Types.Mixed,
@@ -10,6 +11,9 @@ interface IUserSchema extends Document {
   country: string,
   email: string,
   password: string,
+  passwordChangedAt: Date,
+  passwordResetToken: string,
+  passwordResetExpires: Date,
 }
 
 const UserSchema = new Schema({
@@ -20,20 +24,24 @@ const UserSchema = new Schema({
   city: String,
   country: String,
   email: String,
-  password: String
+  password: String,
+  passwordChangedAt: Date,
+  passwordResetToken: String,
+  passwordResetExpires: Date
 })
 
-// class UserSchemaClass extends Schema {
-//   // is to create new methods for the UserSchema
-//   private user = new UserSchemaClass({
-//     firstName: String,
-//     lastName: String,
-//     email: String
-//   })
-//   constructor() {
-//     super()
-//   }
+// UserSchema.methods.createPasswordResetToken = function () {
+//   const resetToken = randomBytes(32).toString('hex')
 
+//   this.passwordResetToken = createHash('sha256')
+//     .update(resetToken)
+//     .digest('hex')
+
+//   console.log({ resetToken }, this.passwordResetToken)
+
+//   this.passwordResetExpires = Date.now() + 10 * 60 * 1000
+
+//   return resetToken
 // }
 
 export default model<IUserSchema>('User', UserSchema)

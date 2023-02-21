@@ -2,8 +2,9 @@ import { IUserRepository } from '../../../Repositories/Interfaces/IUserRepositor
 import { ILogInUserDTO } from './ILogInUserDTO'
 import { User } from '../../../Entities/User'
 import { validate } from 'class-validator'
-import { ValidationError } from '../../../Utils/ErrorHandler/ValidationError'
-import { encrypt } from '../../../Utils/Encrypt'
+import { ValidationError } from '../../../Error/ValidationError'
+import { sign } from 'jsonwebtoken'
+
 export class LogInUserUseCase {
   private usersRepository: IUserRepository
 
@@ -19,12 +20,16 @@ export class LogInUserUseCase {
       throw new ValidationError(error[0].constraints)
     }
 
-    const encryptedPass = await encrypt({ password })
+    const userExists = await this.usersRepository.findUser(email)
 
-    const userExists = await this.usersRepository.logInUser(email, encryptedPass)
-
-    if (!userExists) {
-      throw new ValidationError({ userExistenceError: 'User with this E-Mail and Password not found' })
+    if (!userExists || !(await this.usersRepository.comparePass(password, userExists.password))) {
+      throw new ValidationError({ incorrectDataError: 'Incorrect email or password' })
     }
+
+    const { _id } = userExists
+
+    return sign({ _id }, process.env.JWT_SECRET, {
+      expiresIn: process.env.JWT_EXPIRES_IN
+    })
   }
 }
